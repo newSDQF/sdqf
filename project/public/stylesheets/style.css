@@ -1,0 +1,70 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+ .over-text {
+        width: 720px;
+        height: 60px;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+      .del-img{
+     	position: relative;
+     	width:150px;height:150px;
+     }
+      .del-img img{
+      	width: 100%;
+      	height:100%;
+      	cursor:pointer;
+      }
+    .del-img:after{
+		content:"";
+		position: absolute;
+		right:-5px;
+		top:-10px;
+		width:30px;
+		height:30px;
+		background: url(../images/del.png) no-repeat;
+		background-size: 80%;
+		background-position: center;
+		border-radius: 50%;
+		background-color:rgba(255,255,255,0.5);
+    }
+    .add-picture{
+    	display:inline-block;
+    	width: 150px;
+    	height:150px;
+    	background: url(../images/add.png) no-repeat;
+		background-size: 50%;
+		background-position: center;
+		cursor: pointer;
+		color:#00B7FF;
+		text-align: center;
+		margin:5px;
+
+    }
+    .flex{
+    	display: flex;
+    	flex-wrap: wrap;
+    	align-items: center;
+    	justify-content: flex-start;
+
+    }
+     .v-flex{
+    	display: flex;
+    	
+    	align-items: flex-end;
+    	justify-content: center;
+
+    }
+    .del-img{
+    	margin:5px;
+    }
