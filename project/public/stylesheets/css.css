@@ -15,7 +15,7 @@ background:#333333;
  .logo-new a{color:#fff;}
 .logo{
 	overflow:hidden;
-	background: url(../img/logo.png)no-repeat;
+	background: url(../images/logo.png)no-repeat;
 	margin:50px auto;
 	width:45%;
 	height:84px;
@@ -26,7 +26,7 @@ background:#333333;
  	margin:0 10px;
  	width:50px;
  	height: 18px;
- 	background:url(../img/1.png);
+ 	background:url(../images/1.png);
  	float: right;
  }
  /* 导航 */
@@ -36,16 +36,16 @@ background:#333333;
  	margin: 5px 0;
  }
  .nav{
- 	width:90%;
- 	overflow: hidden;
- 	margin:0 auto;
+ 	display: flex;
+ 	justify-content: center;
+ 	align-items: center;
+
  }
 .nav li{ 
-	margin: 0 5%;+
 	padding:5px;
-	float:left;
+	margin:20px;
  	list-style:none;
-  	width:100px; 
+  	min-width:100px; 
   	text-align:center; 
   	font-weight:bold;
    	color:#000; 
@@ -88,7 +88,7 @@ background:#333333;
 }
 .all-right{
 float: right;
-width: 15%;
+width: 25%;
 margin: 25px 0;
 text-align: center;
 }
@@ -128,6 +128,13 @@ border-radius: 10px;
 }
 .enter-mian p{margin: 12px 0;}
 .enter-mian p a{margin: 5px 0;}
+.goods-detail{
+	font-size: 20px;
+	display: block;
+	color:#333;
+	border:1px solid #333;
+	padding: 5px 0;
+}
 
 input[type=text]{
     width: 328px;
@@ -149,4 +156,53 @@ input[type=submit]{
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
+}
+.warp{
+	height:350px;
+	position: relative;
+	overflow: hidden;
+}
+.slider-inner{
+	position: absolute;
+	left:0;
+	right:0;
+}
+.slider-inner li{
+	float: left;
+}
+.slider-inner li a{
+	display: block;
+	height:100%;
+	width:100%;
+	position: relative;
+	color:#fff;
+}
+.slider-inner li a div{
+	position: absolute;
+	line-height: 80px;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	top:50%;
+	margin-top: -40px;
+	background-color: rgba(0,0,0,0.2)
+
+}
+
+.hide{
+	display: none;
+}
+.show{
+	display: block;
+}
+.no-data{
+	width: 100%;
+	height:350px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 25px;
+	font-weight:bold;
+	color:red;
 }

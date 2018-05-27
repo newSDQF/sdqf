@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Goods = require("../model/goods");
+var GoodsType = require("../model/goodstype");
 var multer = require("multer");
 
 var upload = multer({ dest: 'uploads/' });
@@ -14,6 +15,11 @@ var uploadArray = upload.array("goodsPhotos", 9);
 //商品列表页
 router.get('/', async function(req, res) {
     res.locals.user = req.session.user || undefined;
+
+    var rs=await GoodsType.find();
+    res.locals.typeList=rs;
+
+
     if(req.session.user==""){
     	return res.redirect("/user/login")
     }
@@ -34,6 +40,25 @@ router.get('/', async function(req, res) {
     
 });
 
+//添加商品类别
+router.post("/typeadd",  async function(req, res) {
+
+    var goodsType=new GoodsType({
+        typeName:req.body.typeName,
+        addTime:new Date()
+    })
+
+    try {
+         await goodsType.save();
+         return res.send({status:0,msg:"添加成功"})
+    } catch(e) {
+        // statements
+         res.send({status:1,msg:"添加失败"})
+    }
+   
+
+})
+
 //添加商品
 router.post("/add", cpUpload, async function(req, res) {
 
@@ -41,6 +66,7 @@ router.post("/add", cpUpload, async function(req, res) {
     var date = new Date();
     var goodsData = new Goods({
         goodsId: date.getTime(),
+        goodsTypeName:req.body.goodsTypeName,
         goodsName: req.body.goodsName,
         goodsPrice: req.body.goodsPrice, //商品价格
         goodsCover: req.files['goodsCover'][0].filename, //商品封面
@@ -203,6 +229,42 @@ router.post("/public", async function(req, res) {
     })
 
 })
+
+
+//api
+router.get("/getGoods",async function(req,res){
+
+  
+          var goodsList = await Goods.find({isPublic:true}).sort({ '_id': -1 });
+   
+  
+    res.send({status:0,goodsList: goodsList})
+})
+
+
+router.get("/getDetail", async function(req, res) {
+  
+    //获取修改的数据
+    var goodsInfo = await Goods.findOne({ _id: req.query.id });
+
+    res.send({ status:0,goodsInfo: goodsInfo });
+
+})
+
+
+router.get("/type",async function(req,res){
+
+    try {
+        var typeList=await GoodsType.find();
+        res.send({ status:0,typeList: typeList });
+    } catch(e) {
+        res.send({ status:1,typeList:[],msg:"数据错误" })
+    }
+   
+
+})
+
+
 
 
 

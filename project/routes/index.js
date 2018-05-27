@@ -28,9 +28,7 @@ router.get("/head/:id",function(req,res){
 	 rs.pipe(res);
 
 })
-router.get("/ad",function(req,res){
-	res.send("ad待开发。。。")
-})
+
 router.get("/data",function(req,res){
 	res.send("data待开发。。。")
 })

@@ -176,6 +176,10 @@
                     <div class="panel" style="border:none;box-shadow: none;">
                         <h2 class="panel-heading" style="margin-bottom:20px;">修改商品信息</h2>
                         <div classs="panel-body">
+                             <div class="form-group">
+                                <label for="goodsName">商品类别</label>
+                                <input type="email" class="form-control" id="goodsTypeName" placeholder="jane.doe@example.com" value="<%=goodsInfo.goodsTypeName%>" disabled>
+                            </div>
                             <div class="form-group">
                                 <label for="goodsName">商品名称</label>
                                 <input type="email" class="form-control" id="goodsName" placeholder="jane.doe@example.com" value="<%=goodsInfo.goodsName%>">
@@ -424,14 +428,13 @@ $("#save").on("click", function() {
     }
 
     ajaxData={};
+    
     ajaxData.goodsId="<%=goodsInfo._id%>";
      ajaxData.goodsName=goodsName;
     ajaxData.goodsPrice=goodsPrice;
     ajaxData.goodsDesc=goodsDesc;
      ajaxData.goodsCount=goodsCount;
   
-
-
 
     $.ajax({
         url: "./edit",

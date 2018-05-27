@@ -179,9 +179,13 @@ body {
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <div class="table-responsive">
           	<%if(user){%>
-            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal" style="margin-bottom:10px">
+             <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal" style="margin-bottom:10px">
               添加商品
             </button>
+            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModalType" style="margin-bottom:10px">
+              添加类别
+            </button>
+           
              <a href="/goods?isPublic=false" class="btn btn-primary pull-left"  style="margin:10px;margin-top: 0;">
               查看下架商品
             </a>
@@ -204,6 +208,15 @@ body {
                   </div>
                   <div class="modal-body">
                       <div data-error="" id="data-error" class="bg-danger"> </div>
+                      <div class="input-group input-group-lg">
+                          <span class="input-group-addon" id="sizing-addon0">商品类别</span>
+                          <select name="typeId" id="typeId" class="form-control">
+                            <% typeList.forEach(item=>{%>
+                                <option value="<%=item._id%>"><%=item.typeName%></option>
+                          <%})%>
+                             
+                          </select>
+                      </div>
                       <div class="input-group input-group-lg">
                           <span class="input-group-addon" id="sizing-addon1">商品名称</span>
                           <input type="text" class="form-control" placeholder="goodsName" aria-describedby="sizing-addon1" name="goodsName" id="goodsName">
@@ -241,6 +254,33 @@ body {
                 </div>
               </div>
             </div>
+             <div class="modal fade" id="myModalType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">类别添加</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div data-error="" id="data-error" class="bg-danger"> </div>
+                     
+                       <div class="input-group input-group-lg">
+                          <span class="input-group-addon" id="sizing-addon2">类别名称</span>
+                          <input type="text" class="form-control" placeholder="typeName" aria-describedby="sizing-addon2" name="typeName" id="typeName" >
+                      </div>
+                       
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" id="save-type" class="btn btn-primary">
+                       Save changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="table-responsive" style="min-height: 400px;">
               <table class="table table-striped" data-toggle="table"
@@ -253,6 +293,7 @@ body {
               <thead>
                 <tr>
                   <th data-halign="center" >商品id</th>
+                   <th data-halign="center">商品类别</th>
                   <th data-halign="center">商品名</th>
                   <th data-halign="center" >商品封面</th>
                   <th data-halign="center">商品价格</th>
@@ -266,6 +307,7 @@ body {
                 <% goodsList.forEach((item)=>{%>
 					<tr >
                       <td ><%=item._id%></td>
+                      <td ><%=item.goodsTypeName%></td>
                       <td ><%=item.goodsName%></td>
                        <td><img src="/uploads/<%=item.goodsCover%>" alt="" style="width:120px"></td>
                       <td><%=item.goodsPrice%></td>
@@ -386,11 +428,33 @@ body {
 
     //save 
 
+    $("#save-type").on("click",function(){
+
+        $.ajax({
+          url:"./goods/typeadd",
+          type:"post",
+          data:{typeName:$("#typeName").val()},
+          success:function(data){
+            if(data.status==0){
+              alert(data.msg)
+              location.reload()
+            }else{
+              alert(data.msg)
+            }
+            
+
+          }
+        })
+
+
+    })
+
     $("#save").on("click",function(){
 
       var formdata=new FormData();
 
         var goodsName=$("#goodsName").val();
+        var goodsTypeName=$("#typeId").find("option:selected").text();
         var goodsPrice=$("#goodsPrice").val();
         var goodsDesc=$("#goodsDesc").val();
         var goodsCount=$("#goodsCount").val();
@@ -398,7 +462,13 @@ body {
         var goodsPhotos=$("#goodsPhotos").get(0).files;
 
         console.log(goodsCover)
+         if(goodsTypeName==""){
 
+          $("#data-error").html("请先添加类别");
+           $("#data-error").show();
+           return
+
+        }
         if(goodsName==""){
 
           $("#data-error").html("商品名称不能为空");
@@ -453,7 +523,7 @@ body {
         }
 
 
-
+        formdata.append("goodsTypeName",goodsTypeName)
         formdata.append("goodsName",goodsName)
         formdata.append("goodsPrice",goodsPrice)
         formdata.append("goodsDesc",goodsDesc)

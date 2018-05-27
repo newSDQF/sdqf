@@ -6,6 +6,7 @@ var  _goods=new Schema({
 		type:String,
 		unique:true
 	},
+	goodsTypeName:String,
 	goodsName:String,
 	goodsPrice:Number,
 	goodsCover:String,//商品封面
@@ -16,6 +17,7 @@ var  _goods=new Schema({
 	publicTime:Date,//上架时间
 	lastModified:Date,
 	createor:String,
-	isPublic:Boolean//是否上架
+	isPublic:Boolean,//是否上架
+	isRecommond:Boolean
 })
 module.exports=mongoose.model("goods",_goods);
