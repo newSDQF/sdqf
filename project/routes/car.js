@@ -6,11 +6,11 @@ var Car=require("../model/car");
 
 /* GET users listing. */
 router.get('/',  function(req, res) {
-  res.locals.user=req.session.user||"";
+  
   if(!req.session.user){
-  	return res.redirect("/user/login")
+  	return res.redirect("/")
   }
- 
+ res.locals.user=req.session.user||"";
 	// try {
 
 	Car.find({customerId:req.session.user._id}).populate("goodsId").exec(function(err,data){

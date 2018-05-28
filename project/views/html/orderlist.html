@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>购物车</title>
+	<title>订单列表</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/css.css">
 	<!-- <script type="text/javascript" src="tween.js"></script> -->
 	
@@ -31,18 +31,18 @@
 			</div>
 		</div>
 		<div>
-			<%if(carList.length>0){%>
+			<%if(orderList.length>0){%>
 
-				<%carList.forEach(item=>{%>
+				<%orderList.forEach(item=>{%>
 				<div class="car-list-wrap">
-					<div><img src="../uploads/<%=item.goodsId.goodsCover%>" alt="" style="width:100px;"></div>
-					<div><%=item.goodsId.goodsName%></div>
-					<div><%=item.goodsId.goodsPrice%></div>
-					<div><a href="###" data-carId="<%=item._id%>" data-goodsId="<%=item.goodsId._id%>" onclick="goOrder(event)">下单</a></div>
+					<div><img src="../uploads/<%=item.goodsModel.goodsCover%>" alt="" style="width:100px;"></div>
+					<div><%=item.goodsModel.goodsName%></div>
+					<div><%=item.goodsModel.goodsPrice%></div>
+					<div><a href="###" data-carId="<%=item._id%>" data-goodsId="<%=item.goodsModel._id%>" onclick="goOrder(event)">去支付</a></div>
 				</div>
 				<%})%>
 			<%}else{%>
-				<div class="no-data">购物车空空如也</div>
+				<div class="no-data">订单记录空空如也</div>
 			<%}%>
 		</div>
 

@@ -39,8 +39,8 @@ var typeName = decodeURI(GetQueryString("name"), "utf-8");
               '<div class="all-left" ><img src="../uploads/'+data.goodsList[i].goodsCover+'" alt="" style="width:100%">'+
               '</div>'+
               '<div class="all-right">'+
-                '<p>'+data.goodsList[i].goodsName+'</p>'+
-                '<p>'+data.goodsList[i].goodsPrice+'</p>'+
+                '<p>商品名称：'+data.goodsList[i].goodsName+'</p>'+
+                '<p>￥：'+data.goodsList[i].goodsPrice+'元</p>'+
                 '<p><a class="view goods-detail" href="../goods/getDetail?id='+data.goodsList[i]._id+'"  >view</a></p>'+
                 '<p><a  hred="###" class="view go-car" data-goodsid="'+data.goodsList[i]._id+'" onclick="goCar(event)">加入购物车</a></p>'+
               '</div>'+
@@ -98,7 +98,7 @@ function goCar(event){
 
       
       ajaxData.goodsId=$(event.target).attr("data-goodsid");
-    alert("aaa")
+  
       $.ajax({
         url:"../car/go_car",
         type:"post",
@@ -106,8 +106,8 @@ function goCar(event){
         success:function(data){
 
           if(data.status==0){
-            $(".logo-c a").addClass("logo-c-active")
-            alert(data.msg);
+            $(".logo-c a").addClass("logo-c-active");
+           
           }else{
              alert(data.msg);
           }
