@@ -15,7 +15,15 @@ background:#333333;
 	color: #fff;
 	float: right;
   }
- .logo-new a{color:#fff;}
+  .pull-left{
+  	float: left;
+  }
+  .logo-new span{
+  	margin:0 10px;
+  }
+ .logo-new a{
+ 	color:#fff;
+ }
 .logo{
 	overflow:hidden;
 	background: url(../images/logo.png)no-repeat;
@@ -31,6 +39,16 @@ background:#333333;
  	height: 18px;
  	background:url(../images/1.png);
  	float: right;
+ 	position: relative;
+ }
+  .logo-c-active:after{
+  	width:8px;
+  	height:8px;
+ 	position: absolute;
+ 	border-radius: 50%;
+ 	right:5px;
+ 	top:5px;
+ 	background-color: red;
  }
  /* 导航 */
  .out{width: 100%; 
@@ -133,7 +151,7 @@ border-radius: 10px;
 }
 .enter-mian p{margin: 12px 0;}
 .enter-mian p a{margin: 5px 0;}
-.goods-detail{
+.goods-detail,.go-car{
 	font-size: 20px;
 	display: block;
 	color:#333;
@@ -210,4 +228,11 @@ input[type=submit]{
 	font-size: 25px;
 	font-weight:bold;
 	color:red;
+}
+.car-list-wrap{
+	padding: 20px;
+	display: flex;
+	/*align-content: center;*/
+	justify-content: space-between;
+	align-items: center;
 }

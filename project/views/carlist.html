@@ -223,20 +223,7 @@ body {
 
   <script type="text/javascript">
    
-  		function goOrder(event){
-  			var ajaxData={};
-  			ajaxData.carId=$(event.target).attr("data-carId");
-  			ajaxData.goodsModel=$(event.target).attr("data-goodsId");
-  			$.ajax({
-  				url:"/order/addorder",
-  				type:"post",
-  				data:ajaxData,
-  				success:function(data){
-  					console.log(data);
-  				}
-  			})
-
-  		}
+  
 
 
   </script>

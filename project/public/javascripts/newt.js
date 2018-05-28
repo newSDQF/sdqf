@@ -41,7 +41,8 @@ var typeName = decodeURI(GetQueryString("name"), "utf-8");
               '<div class="all-right">'+
                 '<p>'+data.goodsList[i].goodsName+'</p>'+
                 '<p>'+data.goodsList[i].goodsPrice+'</p>'+
-                '<p><a class="goods-detail" href="../goods/getDetail?id='+data.goodsList[i]._id+'" class="view" >view</a></p>'+
+                '<p><a class="view goods-detail" href="../goods/getDetail?id='+data.goodsList[i]._id+'"  >view</a></p>'+
+                '<p><a  hred="###" class="view go-car" data-goodsid="'+data.goodsList[i]._id+'" onclick="goCar(event)">加入购物车</a></p>'+
               '</div>'+
           '</div>'
         }
@@ -52,6 +53,9 @@ var typeName = decodeURI(GetQueryString("name"), "utf-8");
 
              $(".all-mian").html("<div class='no-data'>暂时没有商品</div>")
         }
+
+
+
 
       }
 
@@ -87,6 +91,32 @@ function getType(name){
 
 
 }
+
+function goCar(event){
+
+      var ajaxData={};
+
+      
+      ajaxData.goodsId=$(event.target).attr("data-goodsid");
+    alert("aaa")
+      $.ajax({
+        url:"../car/go_car",
+        type:"post",
+        data:ajaxData,
+        success:function(data){
+
+          if(data.status==0){
+            $(".logo-c a").addClass("logo-c-active")
+            alert(data.msg);
+          }else{
+             alert(data.msg);
+          }
+         
+        }
+
+
+      })
+    }
 
 
 

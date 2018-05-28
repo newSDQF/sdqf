@@ -6,7 +6,7 @@ var Car=require("../model/car");
 
 /* GET users listing. */
 router.get('/',  function(req, res) {
-  
+  res.locals.user=req.session.user||"";
   if(!req.session.user){
   	return res.redirect("/user/login")
   }
@@ -15,16 +15,9 @@ router.get('/',  function(req, res) {
 
 	Car.find({customerId:req.session.user._id}).populate("goodsId").exec(function(err,data){
 		console.log(data)
-		res.render("carlist",{carList:data})
+		res.render("html/carlist",{carList:data})
 
 	})
-
-		
-	// } catch(e) {
-		// statements
-		
-	 // res.send({status:0,msg:"当前用户未登陆"})	
-	// }
 
 
 
@@ -33,7 +26,7 @@ router.get('/',  function(req, res) {
 router.post('/go_car', async function(req, res) {
   
   if(!req.session.user){
-  	return res.redirect("/user/login")
+  	return res.send({status:1,msg:"请登陆"})
   }
 
   var date=new Date();
