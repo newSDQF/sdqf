@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Car=require("../model/car");
+var Goods=require("../model/goods");
 
 
 /* GET users listing. */
@@ -27,6 +28,12 @@ router.post('/go_car', async function(req, res) {
   
   if(!req.session.user){
   	return res.send({status:1,msg:"请登陆"})
+  }
+
+  var rs=await Goods.findOne({_id:req.body.goodsId});
+
+  if(rs.count<=0){
+  	return res.send({status:1,msg:"抱歉，该商品没有库存了"})
   }
 
   var date=new Date();
