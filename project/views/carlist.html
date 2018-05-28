@@ -196,7 +196,7 @@ body {
                 <% carList.forEach((item)=>{%>
 					<tr>
 
-                      <td><%=item.addTime%></td>
+                      <td><%=item.addTime.toLocaleDateString()%> <%=item.addTime.toLocaleTimeString()%></td>
                       <td><%=item.goodsId.goodsName%></td>
                       <td><%=item.goodsId.goodsPrice%></td>
                      

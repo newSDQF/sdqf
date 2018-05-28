@@ -38,6 +38,7 @@
 					<div><img src="../uploads/<%=item.goodsModel.goodsCover%>" alt="" style="width:100px;"></div>
 					<div><%=item.goodsModel.goodsName%></div>
 					<div><%=item.goodsModel.goodsPrice%></div>
+					<div><%=item.createTime.toLocaleDateString()%> <%=item.createTime.toLocaleTimeString()%></div>
 					<div><a href="###" data-carId="<%=item._id%>" data-goodsId="<%=item.goodsModel._id%>" onclick="goOrder(event)">去支付</a></div>
 				</div>
 				<%})%>
