@@ -121,6 +121,7 @@ router.post("/login",function(req,res){
 		userName:req.body.userName,
 		passWord:req.body.passWord
 	}
+
 	User.findOne({userName:userData.userName},function(err,data){
 
 		if(err){
@@ -128,9 +129,15 @@ router.post("/login",function(req,res){
 		}
 		if(data){
 			if(data.passWord==userData.passWord){
-
-				res.locals.user=req.session.user=data;
-				res.redirect("/");
+				if(userData.userName==="admin"){
+					res.locals.user=req.session.user=data;
+					res.redirect("/");
+				}else{
+					res.locals.user=req.session.user=data;
+					res.redirect("/api/index")
+					
+				}
+				
 			}else{
 				res.send("密码不正确")
 			}

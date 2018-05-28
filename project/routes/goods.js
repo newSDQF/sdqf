@@ -24,17 +24,17 @@ router.get('/', async function(req, res) {
     	return res.redirect("/user/login")
     }
     if(req.query.isPublic=="false"){
-    	Goods.find({isPublic:req.query.isPublic},null,{ '_id': -1 },function(err,data){
+    	Goods.find({isPublic:req.query.isPublic,isUse:{"$ne":"false"}},null,{ '_id': -1 },function(err,data){
     		console.log(data)
     		res.render("goods", { "goodsList": data })
     	});
     	
     }else if(req.query.isPublic=="true"){
-    	var goodsList = await Goods.find({isPublic:Boolean(req.query.isPublic)}).sort({ '_id': -1 });
+    	var goodsList = await Goods.find({isPublic:Boolean(req.query.isPublic),isUse:{"$ne":"false"}}).sort({ '_id': -1 });
     	res.render("goods", { "goodsList": goodsList })
     	
     }else{
-    	var goodsList = await Goods.find().sort({ '_id': -1 });
+    	var goodsList = await Goods.find({isUse:{"$ne":"false"}}).sort({ '_id': -1 });
     	res.render("goods", { "goodsList": goodsList})
     }
     
@@ -128,9 +128,27 @@ router.post("/edit", function(req, res) {
     })
 
 })
+//删除商品
+router.get("/goodsDel", async function(req, res) {
+    if (!req.session.user) {
+        return res.redirect("/user/login")
+    }
+    if (req.query.id == "") {
+        return res.redirect("/goods")
+    }
+    //获取修改的数据
+    var goodsInfo = await Goods.update({ _id: req.query.id },{"$set":{isUse:false,isPublic:false}});
+
+    res.redirect("back");
+
+})
+
+
 //切换封面
 router.post("/cover", single, async function(req, res) {
-
+     if (!req.session.user) {
+        return res.redirect("/user/login")
+    }
     var date = new Date();
     var {
         goodsId
@@ -148,7 +166,9 @@ router.post("/cover", single, async function(req, res) {
 })
 //添加详情图
 router.post("/addpicture", uploadArray, function(req, res) {
-
+     if (!req.session.user) {
+        return res.redirect("/user/login")
+    }
     // console.log()
     var date = new Date();
 
@@ -179,7 +199,9 @@ router.post("/addpicture", uploadArray, function(req, res) {
 
 //删除详情图片单张
 router.post("/removeimg", function(req, res) {
-
+     if (!req.session.user) {
+        return res.redirect("/user/login")
+    }
     var date = new Date();
     var {
         goodsId,
@@ -206,6 +228,9 @@ router.post("/removeimg", function(req, res) {
 })
 //设置上架下架
 router.post("/public", async function(req, res) {
+     if (!req.session.user) {
+        return res.redirect("/user/login")
+    }
     var date = new Date();
     var goodsData = {
         lastModified: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
@@ -230,12 +255,50 @@ router.post("/public", async function(req, res) {
 
 })
 
+//设置推荐
+router.post("/recommend", async function(req, res) {
+
+     if (!req.session.user) {
+        return res.redirect("/user/login")
+    }
+
+    var date = new Date();
+    var goodsData = {
+        lastModified: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
+        isRecommend: req.body.isRecommend
+    };
+
+   
+    var updates = { '$set': {'lastModified': goodsData.lastModified, 'isRecommend': goodsData.isRecommend } }; //将用户名更新为“tiny” 
+
+    Goods.update({ _id: req.body.goodsId }, updates, function(err, data) {
+        if (data) {
+            console.log(data)
+            if (req.body.isPublic) {
+                res.send({ status: 0, msg: "设置商品推荐成功" })
+            } else {
+                res.send({ status: 0, msg: "取消设置商品推荐" })
+            }
+        }
+    })
+
+})
+
 
 //api
 router.get("/getGoods",async function(req,res){
 
   
-          var goodsList = await Goods.find({isPublic:true}).sort({ '_id': -1 });
+     var goodsList = await Goods.find({isPublic:true}).sort({ '_id': -1 });
+   
+  
+    res.send({status:0,goodsList: goodsList})
+})
+//api
+router.get("/getRecommend",async function(req,res){
+
+  
+     var goodsList = await Goods.find({isPublic:true,isRecommend:true}).sort({ '_id': -1 });
    
   
     res.send({status:0,goodsList: goodsList})

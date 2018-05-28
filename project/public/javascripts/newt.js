@@ -12,6 +12,10 @@ var typeName = decodeURI(GetQueryString("name"), "utf-8");
 
 
   getList(typeName);
+
+  getType();
+
+  //获取商品
   function getList(name){
    
     $.ajax({
@@ -55,7 +59,7 @@ var typeName = decodeURI(GetQueryString("name"), "utf-8");
 
   }
 
-
+//获取商品类型
 function getType(name){
   var  name=name?name:"default";
   $.ajax({
@@ -67,10 +71,10 @@ function getType(name){
       if(data.status==0){
 
         for (var i = 0; i < data.typeList.length; i++) {
-          str+="<li class='go-type'><a href='./allgoods.html?name="+encodeURI(encodeURI(data.typeList[i].typeName))+"'>"+data.typeList[i].typeName+"</a>";
+          str+="<li class='go-type'><a href='../api/allgoods?name="+encodeURI(encodeURI(data.typeList[i].typeName))+"'>"+data.typeList[i].typeName+"</a>";
         }
 
-        $(str).insertBefore($(".nav").find("li:last-child"));
+        $(".nav").append($(str));
 
 
       }
@@ -83,7 +87,9 @@ function getType(name){
 
 
 }
-getType();
+
+
+
 
 
 

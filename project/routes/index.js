@@ -14,6 +14,8 @@ router.get('/', function(req, res, next) {
 
    res.redirect("/goods")
 });
+
+
 //获取商品图片接口
 router.get("/uploads/:id",function(req,res){
 

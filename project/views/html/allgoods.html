@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>所有商品</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/css.css">
+	
+
+</head>
+<body >
+	<div>
+	
+		<!-- 头部 -->
+
+		<div class="mian">
+
+			<div class="logo-new">
+				<%if(user){%>
+	
+					<span><a href="../user?userId=<%=user._id%>">欢迎，<%=user.userName%></a></span>
+			
+				<%}else{%>
+				<span><a href="../user/login">登入</a></span>
+				<span><a href="../user/reg">注册</a></span>
+				<%}%>
+				<div class="logo-c"><a href="">购物车</a></div>
+			</div>
+			<div class="logo">	
+			</div>
+		</div>
+
+		<!-- 导航 -->
+
+		<div class="out">
+			<ul class="nav">
+				<li class="li-bom"><a href="../api/index">首页</a></li>
+			    <li><a href="../api/allgoods">所有产品</a></li>
+			</ul>
+			
+		</div>
+	<!-- 	商品展示 -->
+		<div class="all-mian">
+			
+		</div>
+	
+		<div class="fgx"></div>
+		<div class=" jsl">
+
+		</div>
+	
+</body>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/newt.js"></script>
+</html>

@@ -18,6 +18,7 @@ var  _goods=new Schema({
 	lastModified:Date,
 	createor:String,
 	isPublic:Boolean,//是否上架
-	isRecommond:Boolean
+	isUse:Boolean,//是否使用
+	isRecommend:Boolean//是否推荐
 })
 module.exports=mongoose.model("goods",_goods);

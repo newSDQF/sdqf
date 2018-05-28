@@ -1,6 +1,9 @@
 *{ margin:0; padding:0; text-decoration: none; }
 /*头部*/
 body{ background: #a8c5b6; }
+ul,li{
+	list-style: none;
+}
 .mian{
 background:#333333;
 	width: 100%;
@@ -60,14 +63,16 @@ background:#333333;
 }
 /*  尾部素材 */
 .weibu{
-	overflow: hidden;
 	margin:20px auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items:center;
+	justify-content: space-around;
 }
-.weibu-mian{
-	overflow: hidden;
-	margin: 0 30px;
-	float: left;
+.weibu-main{
+	margin: 5px 30px;
 	border-radius: 10px;
+	overflow: hidden;
 } 
 .weibu-text{
 	font-weight: bold;

@@ -299,7 +299,7 @@ body {
                   <th data-halign="center">商品价格</th>
                   <th data-halign="center" >商品库存</th>
                   <th data-halign="center" >商品描述</th>
-                  <th data-halign="center" >操作</th>
+                  <th data-halign="center" >操作(推荐需上架商品才有效)</th>
                 </tr>
               </thead>
               <tbody>
@@ -317,13 +317,23 @@ body {
                       <td>  
 	                      	<a href="###" data-id="<%=item._id%>" data-public="false" onclick="public(event)">下架</a>
 	                      	<a href="/goods/edit?id=<%=item._id%>">编辑</a>
-	                      	<a href="###" data-goodsid="<%=item._id%>"onclick="goCar(event)">加入购物车</a>
+                           <%if(item.isRecommend){%>
+	                      	  <a href="###" data-goodsid="<%=item._id%>" data-recommend="false" onclick="goRecommend(event)">取消推荐</a>
+                          <%}else{%>
+                              <a href="###" data-goodsid="<%=item._id%>" data-recommend="true" onclick="goRecommend(event)">设置推荐</a>
+                          <%}%>
+                          <a href="/goods/goodsDel?id=<%=item._id%>">删除商品</a>
                       </td>
                       <%}else{%>
                        <td>
 	                       	<a href="###" data-id="<%=item._id%>" data-public="true" onclick="public(event)">上架</a>
 	                       	<a href="/goods/edit?id=<%=item._id%>">编辑</a>
-	                       	<a href="###" data-goodsid="<%=item._id%>" onclick="goCar(event)">加入购物车</a>
+	                       	<%if(item.isRecommend){%>
+                            <a href="###" data-goodsid="<%=item._id%>" data-recommend="false" onclick="goRecommend(event)">取消推荐</a>
+                          <%}else{%>
+                              <a href="###" data-goodsid="<%=item._id%>" data-recommend="true" onclick="goRecommend(event)">设置推荐</a>
+                          <%}%>
+                          <a href="/goods/goodsDel?id=<%=item._id%>">删除商品</a>
                        </td>
                        <%}%>
                     </tr>
@@ -344,19 +354,24 @@ body {
 // JSON.stringify(value: any, replacer?: any, space?: any)
   	// console.log(JSON.parse($("#hide").val()))
   	
-  	function goCar(event){
+  	function goRecommend(event){
 
   		var ajaxData={};
-
-  		
   		ajaxData.goodsId=$(event.target).attr("data-goodsid");
+      ajaxData.isRecommend=$(event.target).attr("data-recommend");
 		
   		$.ajax({
-  			url:"./car/go_car",
+  			url:"./goods/recommend",
   			type:"post",
   			data:ajaxData,
   			success:function(data){
-  				console.log(data);
+  				if(ajaxData.isRecommend=="true"){
+            event.target.setAttribute("data-recommend","false")
+            event.target.innerHTML="取消推荐"
+          }else{
+            event.target.setAttribute("data-recommend","true")
+            event.target.innerHTML="设置推荐"
+          }
   			}
 
 
