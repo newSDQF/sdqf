@@ -212,7 +212,7 @@ body {
 	                      <%=item.orderStatus=="0"?"未完成":"已完成"%>	
                       </td>
                         <td>  
-                         <% if(item.isActive==false){%>
+                         <% if(item.isActive==undefined||item.isActive==false){%>
                           <span class='btn btn-warning'>无效</span>
                          <%}else{%>
                             <span class='btn btn-success'>有效</span>

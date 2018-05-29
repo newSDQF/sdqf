@@ -20,7 +20,6 @@
 				
 				<%if(user){%>
 					<span><a href="../user?userId=<%=user._id%>">欢迎，<%=user.userName%></a></span>
-					<span><a href="../api/logout">退出登陆</a></span>
 				<%}else{%>
 				<span><a href="../user/login">登入</a></span>
 				<span><a href="../user/reg">注册</a></span>

@@ -23,6 +23,9 @@ router.get('/', async function(req, res) {
     if(req.session.user==""){
     	return res.redirect("/user/login")
     }
+    if(req.session.user.userName!="admin"){
+        return res.redirect("user/login")
+    }
     if(req.query.isPublic=="false"){
     	Goods.find({isPublic:req.query.isPublic,isUse:{"$ne":"false"}},null,{ '_id': -1 },function(err,data){
     		console.log(data)

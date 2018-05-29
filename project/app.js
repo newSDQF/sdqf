@@ -18,10 +18,11 @@ const FileStore = require('session-file-store')(session);
 
 // 创建 session 中间件
 const sessionMiddleware = session({
+
   secret: 'fdsfdsf fdssdf',
   resave:false,
   saveUninitialized:false,
-  cookie: { maxAge: 600000 }
+  cookie: { maxAge: 60*60*1000 }
 });
 
 // view engine setup

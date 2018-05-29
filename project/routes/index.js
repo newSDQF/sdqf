@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 	}
  	res.locals.user=req.session.user||"";
  	if(req.session.user.userName!="admin"){
- 		return res.redirect("api/index")
+ 		return res.redirect("user/login")
  	}
 
    res.redirect("/goods")
@@ -42,7 +42,7 @@ router.get("/orderlist",async function(req,res){
 		return res.redirect("/user/login");
 	}
 	if(req.session.user.userName!="admin"){
- 		return res.redirect("api/index")
+ 		return res.redirect("user/login")
  	}
  	Order.find({goodsModel:{"$ne":undefined}}).sort({ '_id': -1 }).populate("goodsModel").exec(function(err,data){
 		console.log(data.length)
@@ -58,7 +58,7 @@ router.get("/userlist", async function(req,res){
 		return res.redirect("/user/login");
 	}
 	if(req.session.user.userName!="admin"){
- 		return res.redirect("api/index")
+ 		return res.redirect("user/login")
  	}
 	var rs=await User.find();
 	res.render("userlist",{"userList":rs});
