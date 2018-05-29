@@ -14,7 +14,7 @@ router.get('/',  function(req, res) {
  res.locals.user=req.session.user||"";
 	// try {
 
-	Car.find({customerId:req.session.user._id}).populate("goodsId").exec(function(err,data){
+	Car.find({customerId:req.session.user._id}).sort({"_id":-1}).populate("goodsId").exec(function(err,data){
 		console.log(data)
 		res.render("html/carlist",{carList:data})
 

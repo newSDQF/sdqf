@@ -18,7 +18,7 @@ router.get('/', async function(req, res) {
 
     var rs=await GoodsType.find();
     res.locals.typeList=rs;
-
+    
 
     if(req.session.user==""){
     	return res.redirect("/user/login")
@@ -47,6 +47,9 @@ router.post("/typeadd",  async function(req, res) {
         typeName:req.body.typeName,
         addTime:new Date()
     })
+    if(req.session.user.userName!="admin"){
+        return res.send("你不是管理员")
+    }
 
     try {
          await goodsType.save();
@@ -78,6 +81,9 @@ router.post("/add", cpUpload, async function(req, res) {
         createor: "admin", //创建者名称
         isPublic: false
     })
+    if(req.session.user.userName!="admin"){
+        return res.send("你不是管理员")
+    }
 
     try {
         var result = await goodsData.save();
@@ -95,6 +101,9 @@ router.get("/edit", async function(req, res) {
     }
     if (req.query.id == "") {
         return res.redirect("/goods")
+    }
+    if(req.session.user.userName!="admin"){
+        return res.send("你不是管理员")
     }
     //获取修改的数据
     var goodsInfo = await Goods.findOne({ _id: req.query.id });
@@ -307,10 +316,11 @@ router.get("/getRecommend",async function(req,res){
 
 router.get("/getDetail", async function(req, res) {
   
+    res.locals.user=req.session.user||"";
     //获取修改的数据
     var goodsInfo = await Goods.findOne({ _id: req.query.id });
 
-    res.send({ status:0,goodsInfo: goodsInfo });
+    res.render("html/goodsdetail",{goodsInfo: goodsInfo });
 
 })
 

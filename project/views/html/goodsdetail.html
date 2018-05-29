@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>商品详情</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/css.css">
+	
+
+</head>
+<body >
+	<div>
+	
+		<!-- 头部 -->
+
+		<div class="mian">
+			<div class="logo-new pull-left">
+				<h1>	<span><a href="../api/index">首页</a></span></h1>
+			</div>
+			<div class="logo-new">
+				<%if(user){%>
+	
+					<span><a href="../user?userId=<%=user._id%>">欢迎，<%=user.userName%></a></span>
+					<span><a href="../api/logout">退出登陆</a></span>
+			
+				<%}else{%>
+				<span><a href="../user/login">登入</a></span>
+				<span><a href="../user/reg">注册</a></span>
+				<%}%>
+				<div class="logo-c"><a href="../car">购物车</a></div>
+				<span><a href="../api/orderlist">订单列表</a></span>
+			</div>
+			<div class="logo">	
+			</div>
+		</div>
+
+		
+		<div class="all-mian">
+			<div class="view-mian">
+				<%if(goodsInfo){%>
+				<div class="view-left" >
+					<%goodsInfo.goodsPhotos.forEach(item=>{%>
+						<div>
+							<img src="../uploads/<%=item.filename%>" alt="">
+						</div>
+					<%})%>
+				</div>
+				<div class="view-right" style="text-align:left">
+					<p>商品名称：<%=goodsInfo.goodsName%></p>
+					<p>商品价格：￥<span><%=goodsInfo.goodsPrice%></span></p>
+					<p>商品库存:(<span><%=goodsInfo.goodsCount%></span>)</p>
+					<p><i style="font-size: 12px;font-style: normal;">商品描述:(<%=goodsInfo.goodsDesc%>)</i></p>
+					<p>
+						<a href="###" class="view go-car" data-goodsId="<%=goodsInfo._id%>" onclick="goCar(event)" style="text-align:center;">加入购物车</a>
+					</p>
+				</div>
+				<%}%>	
+			</div>
+
+		</div>
+	
+		<div class="fgx"></div>
+		<div class=" jsl">
+
+		</div>
+	
+</body>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<!-- <script type="text/javascript" src="/javascripts/newt.js"></script> -->
+<script type="text/javascript">
+	
+	function goCar(event){
+
+      var ajaxData={};
+
+      
+      ajaxData.goodsId=$(event.target).attr("data-goodsid");
+  
+      $.ajax({
+        url:"../car/go_car",
+        type:"post",
+        data:ajaxData,
+        success:function(data){
+
+          if(data.status==0){
+            $(".logo-c a").addClass("logo-c-active");
+            alert(data.msg)
+           
+          }else{
+             alert(data.msg);
+          }
+         
+        }
+
+
+      })
+    }
+</script>
+</html>

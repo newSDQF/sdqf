@@ -238,3 +238,49 @@ input[type=submit]{
 	justify-content: space-between;
 	align-items: center;
 }
+.view-left{
+	float: left;
+	width: 60%;
+	margin: 0 auto;
+}
+.view-left div{
+	margin: 10px ;
+	padding: 0 50px;
+}
+.view-left div img{
+	width: 100%;
+}
+.view-right{
+	float: right;
+	width: 30%;
+	border:4px #000 solid;
+	border-radius: 10px;
+	padding: 10px 35px;
+
+}
+.view-right p{
+	font-size:20px;
+	text-align: left;
+	margin: 20px 0;
+	padding: 0 20px;
+}
+.view-mian{
+	width: 80%;
+	overflow:hidden;
+	margin:20px auto;
+}
+.shopp{
+	text-align:center;
+	width: 90%;
+	padding:20px;
+}
+.shopp tr td{
+	margin: 20px;
+	padding: 20px;
+}
+.shopp-img{
+	width: 200px;
+	height: 150px;
+	background:url(../images/b2.jpg)no-repeat;
+	background-size:80% 60%;
+}

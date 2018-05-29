@@ -22,6 +22,8 @@ router.get('/', async function(req, res) {
 	    }
     });
     
+    
+
 
 });
 
@@ -29,6 +31,9 @@ router.get('/', async function(req, res) {
 router.get("/del", function(req, res) {
     if (!req.session.user) {
         return res.redirect("/user/login")
+    }
+   if(req.session.user.userName!="admin"){
+        return res.send("你不是管理员")
     }
     Order.remove({ _id: req.query.orderId }, function(err, data) {
         if (data.n > 0) {

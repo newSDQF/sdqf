@@ -20,6 +20,7 @@
 				
 				<%if(user){%>
 					<span><a href="../user?userId=<%=user._id%>">欢迎，<%=user.userName%></a></span>
+					<span><a href="../api/logout">退出登陆</a></span>
 				<%}else{%>
 				<span><a href="../user/login">登入</a></span>
 				<span><a href="../user/reg">注册</a></span>
@@ -30,7 +31,7 @@
 			<div class="logo">	
 			</div>
 		</div>
-		<div>
+		<!-- <div>
 			<%if(orderList.length>0){%>
 
 				<%orderList.forEach(item=>{%>
@@ -45,7 +46,46 @@
 			<%}else{%>
 				<div class="no-data">订单记录空空如也</div>
 			<%}%>
-		</div>
+		</div> -->
+		<div class="carlist-wrap" style="margin:5% 10%;background-color: #fff;border-radius: 10px;">
+					
+					<h2 style="padding: 10px;border-bottom:1px solid #ccc;">我的订单</h2>	
+					<table class="shopp" >
+						<tr>
+							<th>商品图片</th>
+							<th>商品名称</th>
+							<th>单价(元)</th>
+							<th>下单时间</th>
+							<th>操作</th>
+						</tr>
+						
+				<%if(orderList.length>0){%>
+
+					<%orderList.forEach(item=>{%>
+					<tr>
+						<td >
+							<img src="../uploads/<%=item.goodsModel.goodsCover%>" style="width:150px"/>
+						</td>
+						<td><%=item.goodsModel.goodsName%></td>
+						<td><%=item.goodsModel.goodsPrice%></td>
+						<td><%=item.createTime.toLocaleDateString()%> <%=item.createTime.toLocaleTimeString()%></d>
+						<td>
+							<a href="../api/delorder?orderId=<%=item._id%>">取消订单</a>
+							<a href="../api/orderdetail?orderId=<%=item._id%>">去支付</a>
+						</td>
+					</tr>
+					<%})%>
+				<%}else{%>
+					<tr >
+						<td colspan="5" style="height:200px;font-size: 20px;font-weight:bold;">还没有订单哟</td>
+
+					</tr>
+				<%}%>
+
+					</table>
+
+
+			</div>
 
 		
 			
@@ -59,30 +99,4 @@
 </body>
 <script type="text/javascript" src="/javascripts/jquery.js"></script>
 <!-- <script type="text/javascript" src="/javascripts/newt.js"></script> -->
-<script type="text/javascript">
-		
-
-		function goOrder(event){
-  			var ajaxData={};
-  			ajaxData.carId=$(event.target).attr("data-carId");
-  			ajaxData.goodsModel=$(event.target).attr("data-goodsId");
-  			$.ajax({
-  				url:"../order/addorder",
-  				type:"post",
-  				data:ajaxData,
-  				success:function(data){
-  					if(data.status==0){
-  						location.reload();
-  					}else{
-  						alert(data.msg)
-  					}
-  					
-  				}
-  			})
-
-  		}
-
-
-
-	</script>
 </html>

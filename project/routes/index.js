@@ -11,6 +11,9 @@ router.get('/', function(req, res, next) {
 	return res.redirect("/user/login");
 	}
  	res.locals.user=req.session.user||"";
+ 	if(req.session.user.userName!="admin"){
+ 		return res.redirect("api/index")
+ 	}
 
    res.redirect("/goods")
 });
@@ -31,22 +34,32 @@ router.get("/head/:id",function(req,res){
 
 })
 
-router.get("/data",function(req,res){
-	res.send("data待开发。。。")
-})
+
 router.get("/orderlist",async function(req,res){
+	res.locals.user=req.session.user||"";
+
 	if(!req.session.user){
 		return res.redirect("/user/login");
 	}
+	if(req.session.user.userName!="admin"){
+ 		return res.redirect("api/index")
+ 	}
+ 	Order.find({goodsModel:{"$ne":undefined}}).sort({ '_id': -1 }).populate("goodsModel").exec(function(err,data){
+		console.log(data.length)
+		res.render('orderlist',{"orderList":data});
 
-	var orderList=await Order.find();
-  	res.render('orderlist',{"orderList":orderList});
+	})
+	// var orderList=await Order.find().sort({"_id":-1});
+  	
 })
 router.get("/userlist", async function(req,res){
 
 	if(!req.session.user){
 		return res.redirect("/user/login");
 	}
+	if(req.session.user.userName!="admin"){
+ 		return res.redirect("api/index")
+ 	}
 	var rs=await User.find();
 	res.render("userlist",{"userList":rs});
 })

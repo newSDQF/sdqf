@@ -18,6 +18,9 @@ router.get('/', function(req, res) {
 	if(!req.session.user){
 		return res.redirect("/user/login");
 	}
+	if(req.session.user.userName!="admin"){
+ 		return res.redirect("api/index")
+ 	}
 	var id=req.query.userId||req.session.user;
 	if(id==undefined||id==""){
 		return res.send({status:1,msg:"请登陆"})
