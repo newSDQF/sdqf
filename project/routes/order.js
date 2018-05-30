@@ -106,9 +106,28 @@ router.post("/addorder", async function(req, res) {
     	res.send({status:1,msg:e})
     }
     
+})
 
-   
+router.post("/edit",  function(req, res) {
 
+    var {orderId,user,address,phone,payWay,desc}=req.body;
+    var  updates={"$set":{address:address,
+        telphone:phone,
+        userName:user,
+        payWay:payWay,
+        isPay:true,
+        payTime:new Date(),
+        userDesc:desc,
+        orderStatus:1
+    }}
+    Order.update({_id:orderId},updates,function(err,data){
+
+        if(data.n>0){
+            res.send({status:0,msg:"支付成功"})
+        }else{
+             res.send({status:1,msg:"支付失败，订单不存在"})
+        }
+    })
 
 
 

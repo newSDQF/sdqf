@@ -219,7 +219,11 @@ body {
                          <%}%>
                       </td>
                        <td> 
+                        <%if(item.orderStatus=="0"){%>
                        	 <a href="/order/del?orderId=<%=item._id%>">删除订单</a>
+                         <%}else{%>
+                           <span >已支付完成</span>
+                         <%}%>
 	                     <!-- <a href="/order?orderId=<%=item._id%>">查看编辑</a> -->
                       </td>
                     

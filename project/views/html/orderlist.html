@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>订单列表</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/css.css">
+
 	<!-- <script type="text/javascript" src="tween.js"></script> -->
 	
 </head>
@@ -70,8 +71,14 @@
 						<td><%=item.goodsModel.goodsPrice%></td>
 						<td><%=item.createTime.toLocaleDateString()%> <%=item.createTime.toLocaleTimeString()%></d>
 						<td>
-							<a href="../api/delorder?orderId=<%=item._id%>">取消订单</a>
-							<a href="../api/orderdetail?orderId=<%=item._id%>">去支付</a>
+							<%if(item.orderStatus=="1"){%>
+
+								<a href="../api/orderdetail?orderId=<%=item._id%>">查看</a>
+							<%}else{%>
+
+								<a href="../api/delorder?orderId=<%=item._id%>">取消订单</a>
+								<a href="../api/orderdetail?orderId=<%=item._id%>">去支付</a>
+							<%}%>
 						</td>
 					</tr>
 					<%})%>

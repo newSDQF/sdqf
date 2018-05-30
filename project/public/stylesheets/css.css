@@ -11,7 +11,7 @@ background:#333333;
 	overflow: hidden;
 }
 .logo-new{
-	padding:20px 50px;
+	padding:20px 10px;
 	color: #fff;
 	float: right;
   }
@@ -36,9 +36,8 @@ background:#333333;
  .logo-c{
  	padding-left:22px;
  	margin:0 10px;
- 	width:50px;
  	height: 18px;
- 	background:url(../images/1.png);
+ 	background:url(../images/1.png) no-repeat;
  	float: right;
  	position: relative;
  }
@@ -161,7 +160,7 @@ border-radius: 10px;
 	padding: 5px 0;
 }
 
-input[type=text]{
+/*input[type=text]{
     width: 328px;
     height: 30px;
     line-height: 30px;
@@ -169,7 +168,7 @@ input[type=text]{
     border: 1px solid #f5f5f5;
     padding: 0 10px;
     margin: 15px auto;
-}
+}*/
 input[type=submit]{
     padding:0;
     border: none;

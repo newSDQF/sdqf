@@ -20,6 +20,7 @@
 				
 				<%if(user){%>
 					<span><a href="../user?userId=<%=user._id%>">欢迎，<%=user.userName%></a></span>
+					<span><a href="../api/logout">退出登陆</a></span>
 				<%}else{%>
 				<span><a href="../user/login">登入</a></span>
 				<span><a href="../user/reg">注册</a></span>
@@ -56,7 +57,7 @@
 						<td><%=item.goodsId.goodsPrice%></td>
 						<td><%=item.addTime.toLocaleDateString()%> <%=item.addTime.toLocaleTimeString()%></d>
 						<td>
-							<a href="###">删除</a>
+							<a href="../car/remove_car?carId=<%=item._id%>">删除</a>
 							<a href="###" data-carId="<%=item._id%>" data-goodsId="<%=item.goodsId._id%>" onclick="goOrder(event)">下单</a>
 						</td>
 					</tr>

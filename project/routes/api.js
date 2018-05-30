@@ -66,11 +66,15 @@ router.get("/orderdetail", function(req,res){
  	if(!req.session.user){
  		return res.redirect("/")
  	}
+	 Order.findOne({ _id: req.query.orderId }).populate("goodsModel").exec(function(err,data){
 
- 	Order.findOne({_id:req.query.orderId},function(err,data){
-		res.render("html/orderdetail",{orderInfo:data})
-
-	})
+    
+    	if (data) {
+        	res.render("html/orderdetail", { orderInfo: data });
+	    } else {
+	        res.send("该订单不存在或已经被删除");
+	    }
+    });
  	
    
 })
