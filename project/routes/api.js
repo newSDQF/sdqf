@@ -7,7 +7,14 @@ var  Order=require("../model/order");
 //
 router.get("/index",function(req,res){
 
+
  	res.locals.user=req.session.user||"";
+ 	if(req.session.user){
+ 		if(req.session.user.userName=="admin")
+ 		{
+ 			res.locals.user=req.session.user="";
+ 		}
+	}
 
    res.render("html/index")
 
