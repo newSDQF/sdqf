@@ -1,0 +1,239 @@
+
+//vue-router
+
+//全局前置守卫
+router.beforeEach((to,form,next)=>function(){
+		
+		//对进入特定的路由可以进行处理，但是if  else需要匹配，如果出现堆栈溢出的情况，就是缺少了else{next（）};
+
+})
+全局后置守卫
+//router.afterEach((to,form)=>{})
+
+//路由配置上直接定义 beforeEnter 守卫：
+ beforeRouteEnter (to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不！能！获取组件实例 `this`
+    // 因为当守卫执行前，组件实例还没被创建
+  },
+  beforeRouteUpdate (to, from, next) {
+    // 在当前路由改变，但是该组件被复用时调用
+    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+    // 可以访问组件实例 `this`
+  },
+  beforeRouteLeave (to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+  }
+  这个离开守卫通常用来禁止用户在还未保存修改前突然离开。该导航可以通过 next(false) 来取消。
+
+	beforeRouteLeave (to, from , next) {
+	  const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+	  if (answer) {
+	    next()
+	  } else {
+	    next(false)
+	  }
+	}
+
+
+	数据获取
+
+
+导航完成之后获取：先完成导航，然后在接下来的组件生命周期钩子中获取数据。在数据获取期间显示“加载中”之类的指示。
+
+导航完成之前获取：导航完成前，在路由进入的守卫中获取数据，在数据获取成功后执行导航。
+
+从技术角度讲，两种方式都不错 —— 就看你想要的用户体验是哪种
+
+//完成后再create状态获取，通过loading控制显示不同的东西，加入watch，修改路由时，再度获取数据
+
+<template>
+  <div class="post">
+    <div class="loading" v-if="loading">
+      Loading...
+    </div>
+
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+    <div v-if="post" class="content">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.body }}</p>
+    </div>
+  </div>
+</template>
+
+
+export default {
+  data () {
+    return {
+      loading: false,
+      post: null,
+      error: null
+    }
+  },
+  created () {
+    // 组件创建完后获取数据，
+    // 此时 data 已经被 observed 了
+    this.fetchData()
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route': 'fetchData'
+  },
+  methods: {
+    fetchData () {
+      this.error = this.post = null
+      this.loading = true
+      // replace getPost with your data fetching util / API wrapper
+      getPost(this.$route.params.id, (err, post) => {
+        this.loading = false
+        if (err) {
+          this.error = err.toString()
+        } else {
+          this.post = post
+        }
+      })
+    }
+  }
+}
+
+
+//导航前完成加载
+
+beforeRouteEnter 特别注意,获取不到this，可以通过vm来获取，然后调用next();
+
+export default {
+  data () {
+    return {
+      post: null,
+      error: null
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    getPost(to.params.id, (err, post) => {
+      next(vm => vm.setData(err, post))
+    })
+  },
+  // 路由改变前，组件就已经渲染完了
+  // 逻辑稍稍不同
+  beforeRouteUpdate (to, from, next) {
+    this.post = null
+    getPost(to.params.id, (err, post) => {
+      this.setData(err, post)
+      next()
+    })
+  },
+  methods: {
+    setData (err, post) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.post = post
+      }
+    }
+  }
+}
+
+
+//keep-alive 作用，保持当前页面是否缓存  ，
+mode不能设置为history才可以生效
+
+首页是A页面
+B页面跳转到A，A页面需要缓存
+C页面跳转到A，A页面不需要被缓存
+思路是在每个路由的beforeRouteLeave(to, from, next)钩子中设置to.meta.keepAlive：
+
+A的路由：
+
+{
+    path: '/',
+    name: 'A',
+    component: A,
+    meta: {
+        keepAlive: true // 需要被缓存
+    }
+}
+export default {
+    data() {
+        return {};
+    },
+    methods: {},
+    beforeRouteLeave(to, from, next) {
+         // 设置下一个路由的 meta
+        to.meta.keepAlive = true;  // B 跳转到 A 时，让 A 缓存，即不刷新
+        next();
+    }
+};
+export default {
+    data() {
+        return {};
+    },
+    methods: {},
+    beforeRouteLeave(to, from, next) {
+        // 设置下一个路由的 meta
+        to.meta.keepAlive = false; // C 跳转到 A 时让 A 不缓存，即刷新
+        next();
+    }
+};
+亲测有效哦~
+
+
+
+//kee-alive
+export default {
+  data() {
+    return {
+    
+    }
+  },
+  created: function() {
+    console.log("the hook of created is done!");
+  },
+  mounted: function() {
+    console.log("the hook of mounted is done!");
+  },
+  activated: function() {
+    console.log("the hook of activated is done!");
+  },
+  deactivated: function() {
+    console.log("the hook of deactivated is done!");
+  }
+}
+复制代码
+首次进来 hook 的触发顺序 created-> mounted-> activated，退出时触发 deactivated： 
+
+// 控制台打印结果
+the hook of created is done!
+the hook of mounted is done!
+the hook of activated is done!
+the hook of deactivated is done!
+二次进来 hook 只触发 activated，退出时触发 deactivated： 
+
+// 控制台打印结果
+the hook of activated is done!
+the hook of deactivated is done!
+所以这就是为什么有些人开启 keep-alive 之后，created 和 mounted 注册的 pageInt 方法不触发的原因了，因为 keep-alive 把它们屏蔽了，也就是把数据缓存起来，所以不再请求。
+
+如果你的某些页面一定要实时请求，你可以直接在 activated 这个 hook 做 pageInt，就不要在 created 和 mounted 上面注册 pageInt 方法了。
+
+还有你可以选择性 pageInt，比如监听状态变化，包括但不限于监听路由
+
+
+
+//keep-alive的问题
+
+估计你也能猜到，发生的问题是事件绑定了很多次，比如上传点击input监听change事件，突然显示了多张相同图片的问题。
+
+也就是说，DOM在编译后就缓存在内容中了，如果再次进入还再进行事件绑定初始化则就会发生这个问题。
+
+解决办法：在mounted中绑定事件，因为这个只执行一次，并且DOM已准备好。如果插件绑定后还要再执行一下事件的handler函数的话，那就提取出来，放在activated中执行。比如：根据输入内容自动增长textarea的高度，这部分需要监听textarea的input和change事件，并且页面进入后还要再次执行一次handler函数，更新textarea高度（避免上次输入的影响）。
+
+
+
+
+router=>index.js
+//  component: resolve => require(['@/views/list'], resolve), // 使用懒加载

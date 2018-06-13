@@ -1,0 +1,40 @@
+.move-enter-active,.move-leave-active{
+    transition: opacity .5s;
+}
+.move-enter,.move-leave{
+    opacity: 0;
+}
+*{
+	margin: 0;
+	padding: 0;
+}
+html,body,#app,#wrapper{
+	height:100%;
+	overflow: hidden;
+}
+.crumbs{
+	margin-bottom: 20px;
+}
+.content{
+	 background: none repeat scroll 0 0 #f0f0f0;
+    position: absolute;
+    left: 250px;
+    right: 0;
+    top: 70px;
+    bottom: 0;
+    width: auto;
+    padding: 40px;
+    box-sizing: border-box;
+    -webkit-transition: left .3s ease-in-out;
+    transition: left .3s ease-in-out;
+    overflow-y: auto;
+}
+.content-collapse{
+    left: 65px;
+}
+.container{
+	    padding: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

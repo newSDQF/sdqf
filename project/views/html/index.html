@@ -78,6 +78,20 @@
 <script type="text/javascript" src="/javascripts/jquery.js"></script>
 <script type="text/javascript" src="/javascripts/newt.js"></script>
 <script type="text/javascript">
+
+	$.ajax({
+		url:"https://www.easy-mock.com/mock/5b16837369f2393736205eb4/ts/table/list",
+		type:"post",
+		success:function(data){
+
+			for (var i = 0; i < data.list.length; i++) {
+				$("body").append("<div>"+data.list[i].name+":"+data.list[i].address+"</div>")
+			}
+			
+		},error:function(){
+
+		}
+	})
 		var currentIndex=0;
 		var timer=null;
 		//获取广告
