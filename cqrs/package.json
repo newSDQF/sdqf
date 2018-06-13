@@ -1,0 +1,17 @@
+{
+  "name": "cqrs-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cqrs": "^1.0.7-pre",
+    "mocha": "^5.2.0",
+    "should": "^13.2.1",
+    "webpack": "^3.12.0"
+  }
+}
